@@ -1,0 +1,13 @@
+.DS_Store
+
+# ignore all build binaries
+bin/
+
+# ignore all store files
+**/store/*.json
+**/store/*.csv
+
+# ignore all assets files except test*.json & example*.json
+**/assets/**
+!**/assets/test*.json
+!**/assets/example*.json

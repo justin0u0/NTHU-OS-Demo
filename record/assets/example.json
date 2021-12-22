@@ -1,0 +1,50 @@
+[
+	{
+		"type": "survey",
+		"survey": {
+			"type": "input",
+			"key": "input",
+			"valueType": "string",
+			"message": "Hello input:"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "confirm",
+			"key": "confirm",
+			"message": "Hello confirm:"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "select",
+			"key": "select",
+			"message": "Hello select:",
+			"options": [
+				{"desc": "Select #1", "value": 1},
+				{"desc": "Select #2", "value": 2},
+				{"desc": "Select #3", "value": 3}
+			]
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "loopSelectSelect",
+			"key": "loopSelectSelect",
+			"message": "Hello loopSelectSelect:",
+			"options": [
+				{"desc": "Bad", "value": 1},
+				{"desc": "Normal", "value": 2},
+				{"desc": "Good", "value": 3}
+			],
+			"loopOptions": [
+				{"desc": "Loop Select #1", "value": "1"},
+				{"desc": "Loop Select #2", "value": "2"},
+				{"desc": "Loop Select #3", "value": "3"}
+			]
+		}
+	}
+]
