@@ -25,6 +25,11 @@ type questionGroup struct {
 	Questions       []*question `json:"questions"`
 }
 
+type questioner struct {
+	GroupSize      int              `json:"groupSize"`
+	QuestionGroups []*questionGroup `json:"questionGroups"`
+}
+
 func NewQuestionCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "question [path]",
@@ -47,21 +52,21 @@ func run(_ *cobra.Command, args []string) {
 		pterm.Fatal.Println("Fail to read questions file:", err)
 	}
 
-	var questionGroups []*questionGroup
-	if err := json.NewDecoder(bytes.NewReader(f)).Decode(&questionGroups); err != nil {
-		pterm.Fatal.Println("Fail to parse questions:", err)
+	var questioner questioner
+	if err := json.NewDecoder(bytes.NewReader(f)).Decode(&questioner); err != nil {
+		pterm.Fatal.Println("Fail to parse questioner:", err)
 	}
 
-	for _, group := range questionGroups {
+	for _, group := range questioner.QuestionGroups {
 		rand.Shuffle(len(group.Questions), func(i, j int) {
 			group.Questions[i], group.Questions[j] = group.Questions[j], group.Questions[i]
 		})
 	}
 
-	for _, groupId := range []int{1, 2} {
+	for groupId := 1; groupId <= questioner.GroupSize; groupId++ {
 		pterm.DefaultSection.Println("Group " + strconv.Itoa(groupId))
 
-		for _, group := range questionGroups {
+		for _, group := range questioner.QuestionGroups {
 			offset := groupId * group.PicksPerStudent
 
 			for i := offset; i < group.PicksPerStudent+offset; i++ {

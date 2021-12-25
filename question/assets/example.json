@@ -1,76 +1,79 @@
-[
-  {
-    "picksPerStudent": 3,
-    "questions": [
-      {
-        "id": "Q0",
-        "desc": "Why Q0?"
-      },
-      {
-        "id": "Q1",
-        "desc": "Why Q1?"
-      },
-      {
-        "id": "Q2",
-        "desc": "Why Q2?"
-      },
-      {
-        "id": "Q3",
-        "desc": "Why Q3?"
-      },
-      {
-        "id": "Q4",
-        "desc": "Why Q4?"
-      },
-      {
-        "id": "Q5",
-        "desc": "Why Q5?"
-      },
-      {
-        "id": "Q6",
-        "desc": "Why Q6?"
-      },
-      {
-        "id": "Q7",
-        "desc": "Why Q7?"
-      },
-      {
-        "id": "Q8",
-        "desc": "Why Q8?"
-      },
-      {
-        "id": "Q9",
-        "desc": "Why Q9"
-      },
-      {
-        "id": "Q10",
-        "desc": "Why Q10?"
-      },
-      {
-        "id": "Q11",
-        "desc": "Why Q11?"
-      }
-    ]
-  },
-  {
-    "picksPerStudent": 1,
-    "questions": [
-      {
-        "id": "Q12",
-        "desc": "Why Q12?"
-      },
-      {
-        "id": "Q13",
-        "desc": "Why Q13?"
-      },
-      {
-        "id": "Q14",
-        "desc": "Why Q14?"
-      },
-      {
-        "id": "Q15",
-        "desc": "Why Q15?"
-      }
-    ]
-  }
-]
+{
+  "groupSize": 2,
+  "questionGroups": [
+    {
+      "picksPerStudent": 3,
+      "questions": [
+        {
+          "id": "Q0",
+          "desc": "Why Q0?"
+        },
+        {
+          "id": "Q1",
+          "desc": "Why Q1?"
+        },
+        {
+          "id": "Q2",
+          "desc": "Why Q2?"
+        },
+        {
+          "id": "Q3",
+          "desc": "Why Q3?"
+        },
+        {
+          "id": "Q4",
+          "desc": "Why Q4?"
+        },
+        {
+          "id": "Q5",
+          "desc": "Why Q5?"
+        },
+        {
+          "id": "Q6",
+          "desc": "Why Q6?"
+        },
+        {
+          "id": "Q7",
+          "desc": "Why Q7?"
+        },
+        {
+          "id": "Q8",
+          "desc": "Why Q8?"
+        },
+        {
+          "id": "Q9",
+          "desc": "Why Q9"
+        },
+        {
+          "id": "Q10",
+          "desc": "Why Q10?"
+        },
+        {
+          "id": "Q11",
+          "desc": "Why Q11?"
+        }
+      ]
+    },
+    {
+      "picksPerStudent": 1,
+      "questions": [
+        {
+          "id": "Q12",
+          "desc": "Why Q12?"
+        },
+        {
+          "id": "Q13",
+          "desc": "Why Q13?"
+        },
+        {
+          "id": "Q14",
+          "desc": "Why Q14?"
+        },
+        {
+          "id": "Q15",
+          "desc": "Why Q15?"
+        }
+      ]
+    }
+  ]
+}
