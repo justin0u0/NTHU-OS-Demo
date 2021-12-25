@@ -1,6 +1,6 @@
 
 .PHONY: build-all
-build-all: build build-darwin-arm64 build-darwin-amd64 build-windows-amd64
+build-all: build build-darwin-arm64 build-darwin-amd64 build-windows-amd64 build-linux-amd64
 
 .PHONY: build
 build:
@@ -18,3 +18,6 @@ build-darwin-amd64:
 
 build-windows-amd64:
 	env GOOS=windows GOARCH=amd64 go build -o ./bin/demo_windows_amd64.exe .
+
+build-linux-amd64:
+	env GOOS=linux GOARCH=amd64 go build -o ./bin/demo_linux_amd64 .
