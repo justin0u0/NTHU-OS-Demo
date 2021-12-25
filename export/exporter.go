@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
 
 	"github.com/pterm/pterm"
@@ -15,6 +16,13 @@ type exporter struct {
 	GroupSize int            `json:"groupSize"`
 	Titles    []*exportTitle `json:"titles"`
 	Rules     []*exportRule  `json:"rules"`
+
+	// KeyColumns is the list of titles index to identify that 2 files belongs
+	// to the same row and should merge information into the same row
+	KeyColumns []int `json:"keyColumns"`
+	// SortColumns is the list of titles index to give the order of the
+	// `detailRows` and `summaryRows`
+	SortColumns []int `json:"sortColumns"`
 
 	detailRows  [][]string
 	summaryRows [][]string
@@ -129,14 +137,64 @@ func (e *exporter) evaluateDetail(result map[string]interface{}) error {
 
 	pterm.Debug.Println("Evaluate detail done:", detail)
 
-	if err := e.appendDetailRows(detail); err != nil {
-		return fmt.Errorf("fail to append detail rows: %w", err)
+	if err := e.insertDetailRows(detail); err != nil {
+		return fmt.Errorf("fail to insert detail rows: %w", err)
 	}
 
 	return nil
 }
 
-func (e *exporter) appendDetailRows(detail map[string]interface{}) error {
+func (e *exporter) insertDetailRows(detail map[string]interface{}) error {
+	detailRows, err := e.getDetailRows(detail)
+	if err != nil {
+		return fmt.Errorf("fail to get detail rows: %w", err)
+	}
+
+	for _, newRow := range detailRows {
+		isNewRow := true
+
+		newRowKey := e.getRowKey(newRow)
+		pterm.Debug.Println("inserting detail rows with row key:", newRowKey)
+
+		for _, existsRow := range e.detailRows {
+			existsRowKey := e.getRowKey(existsRow)
+
+			if newRowKey == existsRowKey {
+				isNewRow = false
+				pterm.Debug.Println("merging into exists row with row key:", newRowKey)
+
+				// merge into exists row
+				for i := range newRow {
+					if newRow[i] != "" {
+						existsRow[i] = newRow[i]
+					}
+				}
+			}
+		}
+
+		if isNewRow {
+			e.detailRows = append(e.detailRows, newRow)
+		}
+	}
+
+	return nil
+}
+
+func (e *exporter) getRowKey(row []string) string {
+	key := ""
+
+	for i := range row {
+		for _, keyColumn := range e.KeyColumns {
+			if i == keyColumn {
+				key += fmt.Sprintf("%d:%s;", i, row[i])
+			}
+		}
+	}
+
+	return key
+}
+
+func (e *exporter) getDetailRows(detail map[string]interface{}) ([][]string, error) {
 	rows := make([][]string, e.GroupSize)
 	for i := range rows {
 		rows[i] = make([]string, len(e.Titles))
@@ -147,14 +205,12 @@ func (e *exporter) appendDetailRows(detail map[string]interface{}) error {
 
 	for k, v := range detail {
 		rule := e.getRule(k)
-
 		if rule == nil {
 			pterm.Warning.Println("No match rule, skipping key:", k)
 			continue
 		}
 
 		title := e.getTitle(k)
-
 		if title == nil {
 			pterm.Warning.Println("No match title, skipping key:", k)
 			continue
@@ -162,7 +218,7 @@ func (e *exporter) appendDetailRows(detail map[string]interface{}) error {
 
 		rowIndexes, err := e.getForRowIndexes(k, rule)
 		if err != nil {
-			return fmt.Errorf("fail to get row indexes: %w", err)
+			return nil, fmt.Errorf("fail to get row indexes: %w", err)
 		}
 
 		for _, idx := range rowIndexes {
@@ -170,9 +226,7 @@ func (e *exporter) appendDetailRows(detail map[string]interface{}) error {
 		}
 	}
 
-	e.detailRows = append(e.detailRows, rows...)
-
-	return nil
+	return rows, nil
 }
 
 func (e *exporter) getRule(key string) *exportRule {
@@ -235,16 +289,22 @@ func (e *exporter) exportDetailRowsCSV(fileName string) error {
 
 	writer := csv.NewWriter(f)
 
-	headerRow := make([]string, 0, len(e.Titles))
+	titleRow := make([]string, 0, len(e.Titles))
 	for _, title := range e.Titles {
-		headerRow = append(headerRow, title.Title)
+		titleRow = append(titleRow, title.Title)
 	}
 
-	if err := writer.Write(headerRow); err != nil {
+	if err := writer.Write(titleRow); err != nil {
 		return fmt.Errorf("fail to write header row: %w", err)
 	}
 
-	if err := writer.WriteAll(e.detailRows); err != nil {
+	detailRowSlice := &detailRowSlice{
+		detailRows:  e.detailRows,
+		sortColumns: e.SortColumns,
+	}
+	sort.Sort(detailRowSlice)
+
+	if err := writer.WriteAll(detailRowSlice.detailRows); err != nil {
 		return fmt.Errorf("fail to write detail rows: %w", err)
 	}
 
