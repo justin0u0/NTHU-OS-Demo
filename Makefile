@@ -1,3 +1,4 @@
+all: build
 
 .PHONY: build-all
 build-all: build build-darwin-arm64 build-darwin-amd64 build-windows-amd64 build-linux-amd64

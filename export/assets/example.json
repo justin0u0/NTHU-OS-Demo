@@ -1,0 +1,58 @@
+{
+	"key": "input",
+	"groupSize": 2,
+	"titles": [
+		{
+			"regexp": "input",
+			"title": "Input"
+		},
+		{
+			"regexp": "select",
+			"title": "Select"
+		},
+		{
+			"regexp": "loopScoring",
+			"title": "Share Score"
+		},
+		{
+			"regexp": "loopSelectInputScoring.g\\ds1",
+			"title": "Score #1",
+			"default": "0"
+		},
+		{
+			"regexp": "loopSelectInputScoring.g\\ds2",
+			"title": "Score #2",
+			"default": "0"
+		}
+	],
+	"rules": [
+		{
+			"regexp": "inputScoring",
+			"type": "valuable_complete",
+			"for": "all"
+		},
+		{
+			"regexp": "selectScoring",
+			"type": "valuable_partial",
+			"value": 4,
+			"for": "all"
+		},
+		{
+			"regexp": "confirmScoring",
+			"type": "valuable_boolean",
+			"value": 5,
+			"for": "all"
+		},
+		{
+			"regexp": "loopSelectInputScoring.g(?P<groupId>\\d+)s\\d+",
+			"type": "valuable_complete",
+			"value": 6,
+			"for": "groupId"
+		},
+		{
+			"regexp": ".*",
+			"type": "plaintext",
+			"for": "all"
+		}
+	]
+}

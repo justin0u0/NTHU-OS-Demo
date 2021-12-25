@@ -1,11 +1,100 @@
 [
 	{
+		"type": "pterm",
+		"pterm": {
+			"type": "section",
+			"section": {
+				"level": 1,
+				"println": "Hello this is section level 1"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "section",
+			"section": {
+				"level": 2,
+				"println": "Hello this is section level 2"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "prefix",
+			"prefix": {
+				"level": "debug",
+				"println": "Hello this is DEBUG message (show only when the environment variable PTERM_DEBUG is set to \"true\")"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "prefix",
+			"prefix": {
+				"level": "info",
+				"println": "Hello this is INFO message"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "prefix",
+			"prefix": {
+				"level": "success",
+				"println": "Hello this is SUCCESS message"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "prefix",
+			"prefix": {
+				"level": "warning",
+				"println": "Hello this is WARNING message"
+			}
+		}
+	},
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "prefix",
+			"prefix": {
+				"level": "error",
+				"println": "Hello this is ERROR message"
+			}
+		}
+	},
+
+	{
 		"type": "survey",
 		"survey": {
 			"type": "input",
 			"key": "input",
 			"valueType": "string",
-			"message": "Hello input:"
+			"message": "Hello input a string:"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "input",
+			"key": "input",
+			"valueType": "number",
+			"message": "Hello input a number:"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "input",
+			"key": "input",
+			"valueType": "bool",
+			"message": "Hello input a bool (but for real, just use confirm):"
 		}
 	},
 	{
@@ -32,6 +121,20 @@
 	{
 		"type": "survey",
 		"survey": {
+			"type": "loopSelectInput",
+			"key": "loopSelectInput",
+			"valueType": "number",
+			"message": "Hello loopSelectInput:",
+			"loopOptions": [
+				{"desc": "Loop Select Input #1", "value": "1"},
+				{"desc": "Loop Select Input #2", "value": "2"},
+				{"desc": "Loop Select Input #3", "value": "3"}
+			]
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
 			"type": "loopSelectSelect",
 			"key": "loopSelectSelect",
 			"message": "Hello loopSelectSelect:",
@@ -41,9 +144,65 @@
 				{"desc": "Good", "value": 3}
 			],
 			"loopOptions": [
-				{"desc": "Loop Select #1", "value": "1"},
-				{"desc": "Loop Select #2", "value": "2"},
-				{"desc": "Loop Select #3", "value": "3"}
+				{"desc": "Loop Select Select #1", "value": "1"},
+				{"desc": "Loop Select Select #2", "value": "2"},
+				{"desc": "Loop Select Select #3", "value": "3"}
+			]
+		}
+	},
+
+	{
+		"type": "pterm",
+		"pterm": {
+			"type": "section",
+			"section": {
+				"level": 1,
+				"println": "Demo scoring for the export command"
+			}
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "input",
+			"key": "inputScoring",
+			"valueType": "number",
+			"message": "Enter a share score:"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "select",
+			"key": "selectScoring",
+			"message": "Select an option of score:",
+			"options": [
+				{"desc": "Correct", "value": 1},
+				{"desc": "Half Correct", "value": 0.5},
+				{"desc": "Wrong", "value": 0}
+			]
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "confirm",
+			"key": "confirmScoring",
+			"message": "Confirm to get the score?"
+		}
+	},
+	{
+		"type": "survey",
+		"survey": {
+			"type": "loopSelectInput",
+			"key": "loopSelectInputScoring",
+			"valueType": "number",
+			"message": "Enter the score:",
+			"loopOptions": [
+				{"desc": "Score Group 1 #1:", "value": "g1s1"},
+				{"desc": "Score Group 2 #1:", "value": "g2s1"},
+				{"desc": "Score Group 1 #2:", "value": "g1s2"},
+				{"desc": "Score Group 2 #2:", "value": "g2s2"}
 			]
 		}
 	}
