@@ -37,9 +37,10 @@ type exportRule struct {
 type exportRuleType string
 
 var (
-	exportRuleTypePlainText       exportRuleType = "plaintext"
-	exportRuleTypeValuableBoolean exportRuleType = "valuable_boolean"
-	exportRuleTypeVaulablePartial exportRuleType = "valuable_partial"
+	exportRuleTypePlainText        exportRuleType = "plaintext"
+	exportRuleTypeValuableBoolean  exportRuleType = "valuable_boolean"
+	exportRuleTypeValuableComplete exportRuleType = "valuable_complete"
+	exportRuleTypeVaulablePartial  exportRuleType = "valuable_partial"
 )
 
 type exportTitle struct {
@@ -104,6 +105,14 @@ func (e *exporter) evaluateDetail(result map[string]interface{}) error {
 			if value {
 				detail[k] = rule.Value
 			}
+
+		case exportRuleTypeValuableComplete:
+			value, ok := v.(float64)
+			if !ok {
+				return fmt.Errorf("rule %s expect type float64 on key %s: %w", rule.Type, k, ErrRusultTypeMismatchRuleType)
+			}
+
+			detail[k] = value
 
 		case exportRuleTypeVaulablePartial:
 			value, ok := v.(float64)
@@ -197,9 +206,10 @@ func (e *exporter) getForRowIndexes(k string, rule *exportRule) ([]int, error) {
 		return indexes, nil
 	}
 
-	matches := rule.regexp.FindStringSubmatch(k)
 	for i, name := range rule.regexp.SubexpNames() {
 		if i > 0 && name == rule.For {
+			matches := rule.regexp.FindStringSubmatch(k)
+
 			groupId, err := strconv.Atoi(matches[i])
 			if err != nil {
 				return nil, fmt.Errorf("expect rule.for matches an integer: %w", err)
@@ -214,7 +224,7 @@ func (e *exporter) getForRowIndexes(k string, rule *exportRule) ([]int, error) {
 		}
 	}
 
-	return nil, nil
+	return indexes, nil
 }
 
 func (e *exporter) exportDetailRowsCSV(fileName string) error {
