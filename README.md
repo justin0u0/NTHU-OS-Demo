@@ -20,4 +20,3 @@ All with a single command.
 ## TODOs
 
 - Add feature to export summary.
-- Add feature to record report.
