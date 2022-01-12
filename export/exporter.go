@@ -165,7 +165,7 @@ func (e *exporter) insertDetailRows(detail map[string]interface{}) error {
 
 				// merge into exists row
 				for i := range newRow {
-					if newRow[i] != "" {
+					if newRow[i] != e.Titles[i].Default {
 						existsRow[i] = newRow[i]
 					}
 				}
