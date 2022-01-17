@@ -9,6 +9,7 @@ import (
 	"github.com/justin0u0/NTHU-OS-Demo/export"
 	"github.com/justin0u0/NTHU-OS-Demo/question"
 	"github.com/justin0u0/NTHU-OS-Demo/record"
+	"github.com/justin0u0/NTHU-OS-Demo/version"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -30,6 +31,7 @@ and question by just setting new JSON files. A tool that make TAs happy 😀.
 	cmd.AddCommand(question.NewQuestionCommand())
 	cmd.AddCommand(record.NewRecordCommand())
 	cmd.AddCommand(export.NewExportCommand())
+	cmd.AddCommand(version.NewVersionCommand())
 
 	if os.Getenv("PTERM_DEBUG") == "true" {
 		pterm.EnableDebugMessages()
