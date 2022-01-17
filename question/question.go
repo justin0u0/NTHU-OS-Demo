@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"math/rand"
+	"os"
 	"strconv"
 
+	imgcat "github.com/martinlindhe/imgcat/lib"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -16,8 +18,9 @@ import (
 var questionsFS embed.FS
 
 type question struct {
-	Id   string `json:"id"`
-	Desc string `json:"desc"`
+	Id    string `json:"id"`
+	Desc  string `json:"desc"`
+	Image string `json:"image"`
 }
 
 type questionGroup struct {
@@ -82,7 +85,25 @@ func run(_ *cobra.Command, args []string) {
 				logger.Println(q.Desc)
 
 				pterm.Println("")
+
+				printImage(q.Image)
 			}
 		}
+	}
+}
+
+func printImage(fileName string) {
+	if fileName == "" {
+		return
+	}
+
+	img, err := questionsFS.Open(fileName)
+	if err != nil {
+		pterm.Error.Println("Fail to open image file:", err)
+		return
+	}
+
+	if err := imgcat.Cat(img, os.Stdout); err != nil {
+		pterm.Error.Println("Fail to open image file:", err)
 	}
 }
