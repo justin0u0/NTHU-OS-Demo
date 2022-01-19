@@ -40,6 +40,8 @@ var (
 
 func run(_ *cobra.Command, args []string) {
 	fileName := "assets/" + args[0] + ".json"
+	storeKeyCreatedAt = args[0] + "." + storeKeyCreatedAt
+	storeKeyCreatedBy = args[0] + "." + storeKeyCreatedBy
 
 	pterm.Debug.Println("Running record from file:", fileName)
 
