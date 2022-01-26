@@ -6,6 +6,16 @@ Powered by [spf13/cobra](https://github.com/spf13/cobra), [pterm/pterm](https://
 
 Note that imgcat only support on iterm2.
 
+## Installation
+
+If you have golang version greater than v1.17 installed. Run the following command to install the CLI:
+
+```bash
+go install github.com/justin0u0/NTHU-OS-Demo/cmd/osdemo@latest
+```
+
+If you get error of `osdemo` command not found, add `export PATH=$(go env GOPATH)/bin:$PATH` to your bash config file.
+
 ## Features
 
 All with a single command.
