@@ -50,7 +50,9 @@ func run(_ *cobra.Command, args []string) {
 	}
 
 	for _, resultFileName := range resultFileNames {
-		handleResultFile(resultFileName, exp)
+		if err := handleResultFile(resultFileName, exp); err != nil {
+			pterm.Fatal.Println("Fail to handle result file:", err)
+		}
 	}
 
 	if err := os.MkdirAll(exportDir, 0755); err != nil {

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/justin0u0/NTHU-OS-Demo/version"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -36,12 +37,14 @@ func NewRecordCommand() *cobra.Command {
 var (
 	storeKeyCreatedAt = "createdAt"
 	storeKeyCreatedBy = "createdBy"
+	storeKeyVersion   = "version"
 )
 
 func run(_ *cobra.Command, args []string) {
 	fileName := "assets/" + args[0] + ".json"
 	storeKeyCreatedAt = args[0] + "." + storeKeyCreatedAt
 	storeKeyCreatedBy = args[0] + "." + storeKeyCreatedBy
+	storeKeyVersion = args[0] + "." + storeKeyVersion
 
 	pterm.Debug.Println("Running record from file:", fileName)
 
@@ -67,6 +70,7 @@ func run(_ *cobra.Command, args []string) {
 	} else {
 		rec.store[storeKeyCreatedBy] = user.Name
 	}
+	rec.store[storeKeyVersion] = version.Version
 
 	// marshal result into json bytes
 	result, err := json.Marshal(rec.store)
